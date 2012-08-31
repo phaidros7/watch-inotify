@@ -148,7 +148,7 @@ exports.watchTree = function(inotify, root, options, callback) {
                         try {
                             inotify.removeWatch(files[f]);
                         } catch (ex) {
-                            console.error(ex.stack);
+                            console.error("Inotify::RemoveWatch(descriptor) - InvalidArgument");
                         }
                         delete files[f];
                         callback(4, event);
