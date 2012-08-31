@@ -144,6 +144,7 @@ exports.watchTree = function(inotify, root, options, callback) {
 						callback(2, event);
 					// removed
 					} else if (mask & Inotify.IN_DELETE || mask & Inotify.IN_DELETE_SELF) {
+						// TODO: fix "always throws "Invalid Argument"
 						try {
 							inotify.removeWatch(files[f]);
 						} catch (ex) {
