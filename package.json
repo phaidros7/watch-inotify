@@ -6,7 +6,7 @@
 	"tags": ["util", "watch", "fs", "files", "inotify"],
 	"homepage": "https://github.com/estliberitas/watch-inotify",
 	"bugs": {
-		"url": "https://github.com/mikeal/watch-inotify/issues"
+		"url": "https://github.com/estliberitas/watch-inotify/issues"
 	},
 	"repository": {
 		"type": "git",
