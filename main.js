@@ -94,6 +94,17 @@ function walk(dir, options, callback) {
     })
 
 }
+
+
+/**
+ * Watch file tree
+ *
+ * @param {Inotify} Instance of inotify
+ * @param {String} root Root of file tree to watch
+ * @param {Object} [options] Options for walk()
+ * @param {Function} callback Callback taking following arguments (code|files, event)
+ * @return Controller of inotify instance
+ */
 exports.watchTree = function(inotify, root, options, callback) {
     if (!callback) {
         callback = options;
@@ -175,9 +186,35 @@ exports.watchTree = function(inotify, root, options, callback) {
             }
         }
         callback(files, null, null);
-    })
+    });
+
+    return {
+        stop: function() {
+            var files = Object.keys(files)
+              , path;
+
+            while (path = files.shift()) {
+                try {
+                    inotify.removeWatch(files[path]);
+                } catch (ex) {
+                    // do nothing
+                } finally {
+                    delete files[path];
+                }
+            }
+
+            return inotify.close();
+        }
+    };
 };
 
+
+/**
+ * @param {String} root Path to monitor
+ * @param {Object} [options] Options to pass to walk() function
+ * @param {Function} cb Callback reacting on changes
+ * @return Object controlling tree monitor
+ */
 exports.createMonitor = function(root, options, cb) {
     var monitor = new events.EventEmitter()
       , inotify = new Inotify(false);
@@ -187,7 +224,7 @@ exports.createMonitor = function(root, options, cb) {
         options = {}
     }
 
-    exports.watchTree(inotify, root, options, function(code, event) {
+    return exports.watchTree(inotify, root, options, function(code, event) {
         if (typeof code === "object") {
             monitor.files = code;
             cb(monitor);
@@ -196,5 +233,6 @@ exports.createMonitor = function(root, options, cb) {
         }
     });
 };
+
 
 exports.walk = walk;
