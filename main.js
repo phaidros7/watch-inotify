@@ -110,10 +110,12 @@ exports.watchTree = function(inotify, root, options, callback) {
         callback = options;
         options = {}
     }
+	var descriptors = {};
     walk(root, options, function(err, files) {
         if (err) {
             throw err;
         }
+		descriptors = files;
         var fileWatcher = function(f) {
             var descriptor
               , moveEvents = {};
@@ -190,16 +192,16 @@ exports.watchTree = function(inotify, root, options, callback) {
 
     return {
         stop: function() {
-            var files = Object.keys(files)
+            var paths = Object.keys(descriptors)
               , path;
 
-            while (path = files.shift()) {
+            while (path = paths.shift()) {
                 try {
-                    inotify.removeWatch(files[path]);
+                    inotify.removeWatch(descriptors[path]);
                 } catch (ex) {
                     // do nothing
                 } finally {
-                    delete files[path];
+                    delete descriptors[path];
                 }
             }
 

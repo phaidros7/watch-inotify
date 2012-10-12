@@ -1,7 +1,7 @@
 {
 	"name": "watch-inotify",
 	"author": "Alexander Makarenko <estliberitas@gmail.com>",
-	"version": "0.0.2",
+	"version": "0.1.0",
 	"description": "Watching of file trees based on node-inotify",
 	"tags": ["util", "watch", "fs", "files", "inotify"],
 	"homepage": "https://github.com/estliberitas/watch-inotify",
@@ -13,7 +13,7 @@
 		"url": "git://github.com/estliberitas/watch-inotify.git"
 	},
 	"dependencies": {
-		"inotify": ">=1.0.0"
+		"inotify": "1.1.0"
 	},
 	"directories": {
 		"lib": "lib"
