@@ -12,13 +12,11 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-var sys = require('util')
-  , fs = require('fs')
-  , Inotify = require('inotify').Inotify
+var fs = require("fs")
+  , Inotify = require("inotify").Inotify
   , WATCH_FLAGS = Inotify.IN_ALL_EVENTS
-  , path = require('path')
-  , events = require('events')
-  ;
+  , path = require("path")
+  , events = require("events");
 
 var EVENT_CODES = {
     1: "created",
@@ -38,8 +36,8 @@ function walk(dir, options, callback) {
         callback.pending = 0;
     }
     callback.pending += 1;
-    fs.stat(dir, function(err, stat) {
-        if (err) {
+	fs.stat(dir, function(err) {
+		if (err) {
             return callback(err);
         }
         callback.files[dir] = true;
@@ -66,7 +64,7 @@ function walk(dir, options, callback) {
                     done = callback.pending === 0;
 
                     if (!enoent) {
-                        if (options.ignoreDotFiles && path.basename(f)[0] === '.') {
+                        if (options.ignoreDotFiles && path.basename(f)[0] === ".") {
                             return done && callback(null, callback.files);
                         }
                         if (options.filter && options.filter(f, stat)) {
@@ -99,7 +97,7 @@ function walk(dir, options, callback) {
 /**
  * Watch file tree
  *
- * @param {Inotify} Instance of inotify
+ * @param {Inotify} inotify Instance of inotify
  * @param {String} root Root of file tree to watch
  * @param {Object} [options] Options for walk()
  * @param {Function} callback Callback taking following arguments (code|files, event)
