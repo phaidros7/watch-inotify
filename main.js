@@ -110,12 +110,12 @@ exports.watchTree = function(inotify, root, options, callback) {
         callback = options;
         options = {}
     }
-	var descriptors = {};
+    var descriptors = {};
     walk(root, options, function(err, files) {
         if (err) {
             throw err;
         }
-		descriptors = files;
+        descriptors = files;
         var fileWatcher = function(f) {
             var descriptor
               , moveEvents = {};
@@ -157,12 +157,13 @@ exports.watchTree = function(inotify, root, options, callback) {
                         callback(2, event);
                     // removed
                     } else if (mask & Inotify.IN_DELETE || mask & Inotify.IN_DELETE_SELF) {
-                        // TODO: fix "always throws "Invalid Argument"
-                        try {
-                            inotify.removeWatch(files[f]);
-                        } catch (ex) {
-                            console.error("Inotify::RemoveWatch(descriptor) - InvalidArgument");
-                        }
+                        /**
+                         * No need to do inotify_rm_watch(fd, wd), because (from man page):
+                         *
+                         * When all file descriptors referring to an inotify instance have been closed,
+                         * the underlying object and its resources are freed for reuse by the kernel
+                         * all associated watches are automatically freed.
+                          */
                         delete files[f];
                         callback(4, event);
                     } else if (mask & Inotify.IN_MOVED_FROM) {
