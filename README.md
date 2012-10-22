@@ -9,7 +9,7 @@ Usage
 As in original module API is not changed, so creating of monitor is the same:
 
 ```javascript
-watch.createMonitor('/home/mikeal', function (monitor) {
+var ctrl = watch.createMonitor('/home/mikeal', function (monitor) {
 	monitor.on("created", function (f, stat) {
 		// handle creation
 	});
@@ -20,6 +20,9 @@ watch.createMonitor('/home/mikeal', function (monitor) {
 		// handle deletion
 	});
 });
+
+// When we are done remove all inotify watchers:
+ctrl.stop();
 ```
 
 TODO
