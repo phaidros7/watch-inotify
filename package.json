@@ -1,19 +1,11 @@
 {
 	"name": "watch-inotify",
-	"author": "Alexander Makarenko <estliberitas@gmail.com>",
-	"version": "0.1.1",
+	"author": "Alexander Klosch <kloschi@susignal.org>",
+	"version": "0.1.2",
 	"description": "Watching of file trees based on node-inotify",
 	"tags": ["util", "watch", "fs", "files", "inotify"],
-	"homepage": "https://github.com/estliberitas/watch-inotify",
-	"bugs": {
-		"url": "https://github.com/estliberitas/watch-inotify/issues"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git://github.com/estliberitas/watch-inotify.git"
-	},
 	"dependencies": {
-		"inotify": "1.1.0"
+		"inotify": "1.2.1"
 	},
 	"directories": {
 		"lib": "lib"
